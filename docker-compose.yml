@@ -1,0 +1,62 @@
+version: '3.9'
+
+services:
+  todo-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - GRADLE_OPTS=-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx2048m -Dorg.gradle.parallel=true -Dorg.gradle.configureondemand=true -Dorg.gradle.caching=true -Dorg.gradle.test.skip=true
+    container_name: todo-api
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+      postgresql-db:
+        condition: service_healthy
+    env_file:
+      - .env
+
+  mysql-db:
+    image: mysql:8.0
+    platform: linux/x86_64
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: todo
+      MYSQL_DATABASE: todo
+      MYSQL_USER: todo
+      MYSQL_PASSWORD: todo
+    volumes:
+      - mysql-todo-db-data:/var/lib/mysql
+      - $PWD/_tools/mysql/conf.d:/etc/mysql/conf.d:cached
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "33306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-ptodo"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  postgresql-db:
+    image: postgres:16
+    platform: linux/x86_64
+    container_name: postgresql-db
+    environment:
+      POSTGRES_DB: todo
+      POSTGRES_USER: todo
+      POSTGRES_PASSWORD: todo
+    volumes:
+      - postgresql-todo-db-data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U todo"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  mysql-todo-db-data:
+  postgresql-todo-db-data:
