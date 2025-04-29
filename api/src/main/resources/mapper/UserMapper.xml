@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.todo.repository.UserRepository">
+    <resultMap id="userResultMap" type="com.example.todo.model.User">
+        <id property="id" column="id" />
+        <result property="username" column="username" />
+        <result property="email" column="email" />
+        <result property="firstName" column="first_name" />
+        <result property="lastName" column="last_name" />
+        <result property="createdAt" column="created_at" />
+        <result property="updatedAt" column="updated_at" />
+    </resultMap>
+
+    <select id="findAll" resultMap="userResultMap">
+        SELECT * FROM users
+    </select>
+
+    <select id="findById" resultMap="userResultMap">
+        SELECT * FROM users WHERE id = #{id}
+    </select>
+
+    <insert id="create" parameterType="com.example.todo.model.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users (username, email, first_name, last_name, created_at, updated_at)
+        VALUES (#{username}, #{email}, #{firstName}, #{lastName}, NOW(), NOW())
+    </insert>
+
+    <update id="update" parameterType="com.example.todo.model.User">
+        UPDATE users
+        SET username = #{username},
+            email = #{email},
+            first_name = #{firstName},
+            last_name = #{lastName},
+            updated_at = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM users WHERE id = #{id}
+    </delete>
+</mapper> 
