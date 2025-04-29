@@ -6,7 +6,7 @@
         <result property="title" column="title" />
         <result property="description" column="description" />
         <result property="dueDate" column="due_date" />
-        <result property="status" column="status" typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+        <result property="status" column="status" typeHandler="com.example.todo.config.TaskStatusTypeHandler" />
         <result property="ownerId" column="owner_id" />
         <result property="createdAt" column="created_at" />
         <result property="updatedAt" column="updated_at" />
@@ -22,7 +22,7 @@
 
     <insert id="create" parameterType="com.example.todo.model.Task" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO tasks (title, description, due_date, status, owner_id, created_at, updated_at)
-        VALUES (#{title}, #{description}, #{dueDate}, #{status.value}, #{ownerId}, NOW(), NOW())
+        VALUES (#{title}, #{description}, #{dueDate}, #{status,typeHandler=com.example.todo.config.TaskStatusTypeHandler}, #{ownerId}, NOW(), NOW())
     </insert>
 
     <update id="update" parameterType="com.example.todo.model.Task">
@@ -30,7 +30,7 @@
         SET title = #{title},
             description = #{description},
             due_date = #{dueDate},
-            status = #{status.value},
+            status = #{status,typeHandler=com.example.todo.config.TaskStatusTypeHandler},
             owner_id = #{ownerId},
             updated_at = NOW()
         WHERE id = #{id}

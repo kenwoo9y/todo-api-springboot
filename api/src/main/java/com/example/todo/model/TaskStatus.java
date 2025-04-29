@@ -1,5 +1,7 @@
 package com.example.todo.model;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum TaskStatus {
     TODO("ToDo"),
     DOING("Doing"),
@@ -11,13 +13,14 @@ public enum TaskStatus {
         this.value = value;
     }
 
+    @JsonValue
     public String getValue() {
         return value;
     }
 
     public static TaskStatus fromValue(String value) {
         for (TaskStatus status : TaskStatus.values()) {
-            if (status.value.equals(value)) {
+            if (status.value.equalsIgnoreCase(value)) {
                 return status;
             }
         }
