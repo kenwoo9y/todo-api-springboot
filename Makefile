@@ -1,4 +1,4 @@
-.PHONY: help build-local up down logs ps
+.PHONY: help build-local up down logs ps mysql psql
 .DEFAULT_GOAL := help
 
 build-local: ## Build docker image to local development
@@ -15,6 +15,12 @@ logs: ## Tail docker compose logs
 
 ps: ## Check container status
 	docker compose ps
+
+mysql: ## Access MySQL Database
+	docker compose exec mysql-db mysql -u root -p --default-character-set=utf8mb4
+
+psql: ## Access PostgreSQL Database
+	docker compose exec postgresql-db psql -U todo -d todo -W
 
 help: ## Show options
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
