@@ -44,6 +44,30 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+	
+	// テスト実行時の詳細を表示
+	testLogging {
+		events "passed", "skipped", "failed"
+		
+		showExceptions true
+		showCauses true
+		showStackTraces true
+
+		afterSuite { desc, result ->
+			if (!desc.parent) {
+				println "\nTest result: ${result.resultType}"
+				println "Test summary: ${result.testCount} tests, " +
+					   "${result.successfulTestCount} succeeded, " +
+					   "${result.failedTestCount} failed, " +
+					   "${result.skippedTestCount} skipped"
+				println "Total time: ${(result.endTime - result.startTime) / 1000.0} seconds"
+			}
+		}
+	}
+
+	maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+
+	failFast = true
 }
 
 bootJar {

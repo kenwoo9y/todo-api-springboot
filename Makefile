@@ -1,4 +1,4 @@
-.PHONY: help build-local up down logs ps mysql psql
+.PHONY: help build-local up down logs ps test mysql psql
 .DEFAULT_GOAL := help
 
 build-local: ## Build docker image to local development
@@ -15,6 +15,9 @@ logs: ## Tail docker compose logs
 
 ps: ## Check container status
 	docker compose ps
+
+test: ## Execute tests
+	docker compose run --rm -v "${PWD}/api:/app/api" -w /app/api --entrypoint "" todo-api ./gradlew test --rerun-tasks
 
 mysql: ## Access MySQL Database
 	docker compose exec mysql-db mysql -u root -p --default-character-set=utf8mb4
