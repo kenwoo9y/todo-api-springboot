@@ -11,6 +11,7 @@ import com.example.todo.model.Task;
 public interface TaskRepository {
     List<Task> findAll();
     Optional<Task> findById(Long id);
+    List<Task> findByOwnerId(Long ownerId);
     void create(Task task);
     void update(Task task);
     void delete(Long id);

@@ -24,6 +24,10 @@ public class TaskService {
         return taskRepository.findById(id);
     }
 
+    public List<Task> findByOwnerId(Long ownerId) {
+        return taskRepository.findByOwnerId(ownerId);
+    }
+
     public boolean exists(Long id) {
         return findById(id).isPresent();
     }

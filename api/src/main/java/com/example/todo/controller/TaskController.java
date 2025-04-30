@@ -16,28 +16,37 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.example.todo.model.Task;
 import com.example.todo.service.TaskService;
+import com.example.todo.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/tasks")
 @RequiredArgsConstructor
 public class TaskController {
     private final TaskService taskService;
+    private final UserService userService;
 
-    @GetMapping
+    @GetMapping("/tasks")
     public ResponseEntity<List<Task>> getAllTasks() {
         return ResponseEntity.ok(taskService.findAll());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/tasks/{id}")
     public ResponseEntity<Task> getTaskById(@PathVariable Long id) {
         return taskService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found"));
     }
 
-    @PostMapping
+    @GetMapping("/users/{ownerId}/tasks")
+    public ResponseEntity<List<Task>> getTasksByOwnerId(@PathVariable Long ownerId) {
+        if (!userService.exists(ownerId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        return ResponseEntity.ok(taskService.findByOwnerId(ownerId));
+    }
+
+    @PostMapping("/tasks")
     public ResponseEntity<Task> createTask(@RequestBody Task task) {
         try {
             Task createdTask = taskService.create(task);
@@ -47,7 +56,7 @@ public class TaskController {
         }
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/tasks/{id}")
     public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task task) {
         return taskService.findById(id)
                 .map(existingTask -> {
@@ -67,7 +76,7 @@ public class TaskController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found"));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/tasks/{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
         if (!taskService.exists(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found");

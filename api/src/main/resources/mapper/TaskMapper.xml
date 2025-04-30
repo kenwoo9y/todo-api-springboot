@@ -20,6 +20,10 @@
         SELECT * FROM tasks WHERE id = #{id}
     </select>
 
+    <select id="findByOwnerId" resultMap="taskResultMap">
+        SELECT * FROM tasks WHERE owner_id = #{ownerId}
+    </select>
+
     <insert id="create" parameterType="com.example.todo.model.Task" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO tasks (title, description, due_date, status, owner_id, created_at, updated_at)
         VALUES (#{title}, #{description}, #{dueDate}, #{status,typeHandler=com.example.todo.config.TaskStatusTypeHandler}, #{ownerId}, NOW(), NOW())
