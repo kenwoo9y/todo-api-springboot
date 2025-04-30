@@ -11,6 +11,7 @@ import com.example.todo.model.User;
 public interface UserRepository {
     List<User> findAll();
     Optional<User> findById(Long id);
+    Optional<User> findByUsername(String username);
     void create(User user);
     void update(User user);
     void delete(Long id);
