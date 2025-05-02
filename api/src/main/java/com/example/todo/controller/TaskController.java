@@ -16,17 +16,33 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+/**
+ * REST controller for task management.
+ * Provides operations for creating, retrieving, updating, and deleting tasks.
+ */
 @RestController
 @RequiredArgsConstructor
 public class TaskController {
   private final TaskService taskService;
   private final UserService userService;
 
+  /**
+   * Retrieves all tasks.
+   *
+   * @return Response containing a list of tasks
+   */
   @GetMapping("/tasks")
   public ResponseEntity<List<Task>> getAllTasks() {
     return ResponseEntity.ok(taskService.findAll());
   }
 
+  /**
+   * Retrieves a task by its ID.
+   *
+   * @param id Task ID
+   * @return Response containing the task information
+   * @throws ResponseStatusException if the task is not found
+   */
   @GetMapping("/tasks/{id}")
   public ResponseEntity<Task> getTaskById(@PathVariable Long id) {
     return taskService
@@ -35,6 +51,13 @@ public class TaskController {
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found"));
   }
 
+  /**
+   * Retrieves all tasks for a specific user.
+   *
+   * @param ownerId ID of the user who owns the tasks
+   * @return Response containing a list of tasks
+   * @throws ResponseStatusException if the user is not found
+   */
   @GetMapping("/users/{ownerId}/tasks")
   public ResponseEntity<List<Task>> getTasksByOwnerId(@PathVariable Long ownerId) {
     if (!userService.exists(ownerId)) {
@@ -43,6 +66,13 @@ public class TaskController {
     return ResponseEntity.ok(taskService.findByOwnerId(ownerId));
   }
 
+  /**
+   * Creates a new task.
+   *
+   * @param task Task information to create
+   * @return Response containing the created task information
+   * @throws ResponseStatusException if the task information is invalid
+   */
   @PostMapping("/tasks")
   public ResponseEntity<Task> createTask(@RequestBody Task task) {
     try {
@@ -53,6 +83,14 @@ public class TaskController {
     }
   }
 
+  /**
+   * Updates a task's information by its ID.
+   *
+   * @param id ID of the task to update
+   * @param task Updated task information
+   * @return Response containing the updated task information
+   * @throws ResponseStatusException if the task is not found or the update information is invalid
+   */
   @PatchMapping("/tasks/{id}")
   public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task task) {
     return taskService
@@ -60,7 +98,7 @@ public class TaskController {
         .map(
             existingTask -> {
               try {
-                // 部分更新のためのマージ処理
+                // Merge process for partial update
                 if (task.getTitle() != null) existingTask.setTitle(task.getTitle());
                 if (task.getDescription() != null)
                   existingTask.setDescription(task.getDescription());
@@ -76,6 +114,13 @@ public class TaskController {
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found"));
   }
 
+  /**
+   * Deletes a task by its ID.
+   *
+   * @param id ID of the task to delete
+   * @return Empty response on successful deletion
+   * @throws ResponseStatusException if the task is not found
+   */
   @DeleteMapping("/tasks/{id}")
   public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
     if (!taskService.exists(id)) {
