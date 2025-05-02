@@ -2,23 +2,15 @@ package com.example.todo.model;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-/**
- * Enum representing the possible statuses of a task.
- */
+/** Enum representing the possible statuses of a task. */
 public enum TaskStatus {
-  /**
-   * Task has been created but not yet started.
-   */
+  /** Task has been created but not yet started. */
   TODO("ToDo"),
 
-  /**
-   * Task is currently being worked on.
-   */
+  /** Task is currently being worked on. */
   DOING("Doing"),
 
-  /**
-   * Task has been completed.
-   */
+  /** Task has been completed. */
   DONE("Done");
 
   private final String value;

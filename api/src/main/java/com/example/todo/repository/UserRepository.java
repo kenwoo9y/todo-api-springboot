@@ -5,10 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
 
-/**
- * Repository interface for User entity.
- * Handles database operations for users.
- */
+/** Repository interface for User entity. Handles database operations for users. */
 @Mapper
 public interface UserRepository {
   /**

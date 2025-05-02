@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 /**
- * REST controller for user management.
- * Provides operations for creating, retrieving, updating, and deleting users.
+ * REST controller for user management. Provides operations for creating, retrieving, updating, and
+ * deleting users.
  */
 @RestController
 @RequestMapping("/users")
@@ -99,10 +99,18 @@ public class UserController {
             existingUser -> {
               try {
                 // Merge process for partial update
-                if (user.getUsername() != null) existingUser.setUsername(user.getUsername());
-                if (user.getEmail() != null) existingUser.setEmail(user.getEmail());
-                if (user.getFirstName() != null) existingUser.setFirstName(user.getFirstName());
-                if (user.getLastName() != null) existingUser.setLastName(user.getLastName());
+                if (user.getUsername() != null) {
+                  existingUser.setUsername(user.getUsername());
+                }
+                if (user.getEmail() != null) {
+                  existingUser.setEmail(user.getEmail());
+                }
+                if (user.getFirstName() != null) {
+                  existingUser.setFirstName(user.getFirstName());
+                }
+                if (user.getLastName() != null) {
+                  existingUser.setLastName(user.getLastName());
+                }
 
                 return ResponseEntity.ok(userService.update(id, existingUser));
               } catch (IllegalArgumentException e) {

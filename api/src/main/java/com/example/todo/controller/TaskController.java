@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 /**
- * REST controller for task management.
- * Provides operations for creating, retrieving, updating, and deleting tasks.
+ * REST controller for task management. Provides operations for creating, retrieving, updating, and
+ * deleting tasks.
  */
 @RestController
 @RequiredArgsConstructor
@@ -63,6 +63,7 @@ public class TaskController {
     if (!userService.exists(ownerId)) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
     }
+
     return ResponseEntity.ok(taskService.findByOwnerId(ownerId));
   }
 
@@ -99,12 +100,21 @@ public class TaskController {
             existingTask -> {
               try {
                 // Merge process for partial update
-                if (task.getTitle() != null) existingTask.setTitle(task.getTitle());
-                if (task.getDescription() != null)
+                if (task.getTitle() != null) {
+                  existingTask.setTitle(task.getTitle());
+                }
+                if (task.getDescription() != null) {
                   existingTask.setDescription(task.getDescription());
-                if (task.getDueDate() != null) existingTask.setDueDate(task.getDueDate());
-                if (task.getStatus() != null) existingTask.setStatus(task.getStatus());
-                if (task.getOwnerId() != null) existingTask.setOwnerId(task.getOwnerId());
+                }
+                if (task.getDueDate() != null) {
+                  existingTask.setDueDate(task.getDueDate());
+                }
+                if (task.getStatus() != null) {
+                  existingTask.setStatus(task.getStatus());
+                }
+                if (task.getOwnerId() != null) {
+                  existingTask.setOwnerId(task.getOwnerId());
+                }
 
                 return ResponseEntity.ok(taskService.update(id, existingTask));
               } catch (IllegalArgumentException e) {

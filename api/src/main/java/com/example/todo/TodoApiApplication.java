@@ -4,8 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Main application class for the Todo API.
- * This is the entry point of the Spring Boot application.
+ * Main application class for the Todo API. This is the entry point of the Spring Boot application.
  * The application provides RESTful APIs for managing users and tasks.
  */
 @SpringBootApplication

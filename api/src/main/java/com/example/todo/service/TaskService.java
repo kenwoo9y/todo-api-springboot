@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Service class for task management.
- * Handles business logic for task operations.
- */
+/** Service class for task management. Handles business logic for task operations. */
 @Service
 @RequiredArgsConstructor
 public class TaskService {

@@ -5,10 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
 
-/**
- * Repository interface for Task entity.
- * Handles database operations for tasks.
- */
+/** Repository interface for Task entity. Handles database operations for tasks. */
 @Mapper
 public interface TaskRepository {
   /**

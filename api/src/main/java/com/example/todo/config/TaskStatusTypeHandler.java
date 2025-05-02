@@ -9,9 +9,9 @@ import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
 /**
- * Type handler for converting between TaskStatus enum and database values.
- * This handler is used by MyBatis to handle the conversion of TaskStatus enum
- * values when reading from and writing to the database.
+ * Type handler for converting between TaskStatus enum and database values. This handler is used by
+ * MyBatis to handle the conversion of TaskStatus enum values when reading from and writing to the
+ * database.
  */
 public class TaskStatusTypeHandler extends BaseTypeHandler<TaskStatus> {
 
@@ -41,7 +41,10 @@ public class TaskStatusTypeHandler extends BaseTypeHandler<TaskStatus> {
   @Override
   public TaskStatus getNullableResult(ResultSet rs, String columnName) throws SQLException {
     String value = rs.getString(columnName);
-    return value == null ? null : TaskStatus.fromValue(value);
+    if (value == null) {
+      return null;
+    }
+    return TaskStatus.fromValue(value);
   }
 
   /**
@@ -55,7 +58,10 @@ public class TaskStatusTypeHandler extends BaseTypeHandler<TaskStatus> {
   @Override
   public TaskStatus getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
     String value = rs.getString(columnIndex);
-    return value == null ? null : TaskStatus.fromValue(value);
+    if (value == null) {
+      return null;
+    }
+    return TaskStatus.fromValue(value);
   }
 
   /**
@@ -69,6 +75,9 @@ public class TaskStatusTypeHandler extends BaseTypeHandler<TaskStatus> {
   @Override
   public TaskStatus getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
     String value = cs.getString(columnIndex);
-    return value == null ? null : TaskStatus.fromValue(value);
+    if (value == null) {
+      return null;
+    }
+    return TaskStatus.fromValue(value);
   }
 }
