@@ -26,7 +26,7 @@ psql: ## Access PostgreSQL Database
 	docker compose exec postgresql-db psql -U todo -d todo -W
 
 lint-check: ## Check code style with Checkstyle
-	docker compose run --rm -v "${PWD}/api:/app/api" -w /app/api --entrypoint "" todo-api ./gradlew check
+	docker compose run --rm -v "${PWD}/api:/app/api" -w /app/api --entrypoint "" todo-api ./gradlew checkstyleMain checkstyleTest
 
 format-check: ## Check code format using Spotless
 	docker compose run --rm -v "${PWD}/api:/app/api" -w /app/api --entrypoint "" todo-api ./gradlew spotlessCheck
