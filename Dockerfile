@@ -10,12 +10,13 @@ COPY ./api/gradle ./gradle
 COPY ./api/build.gradle ./build.gradle
 COPY ./api/settings.gradle ./settings.gradle
 COPY ./api/src ./src
+COPY ./api/config ./config
 
 # Gradleラッパーに実行権限を付与
 RUN chmod +x ./gradlew
 
 # Gradleを実行してプロジェクトをビルド（テストをスキップ）
-RUN ./gradlew bootJar --no-daemon --info --stacktrace --debug
+RUN ./gradlew bootJar --no-daemon --info --stacktrace
 
 # ビルド成果物の確認
 RUN ls -la build/libs/ || true

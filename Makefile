@@ -1,4 +1,4 @@
-.PHONY: help build-local up down logs ps test mysql psql format-check format-fix build
+.PHONY: help build-local up down logs ps test mysql psql lint-check format-check format-fix build
 .DEFAULT_GOAL := help
 
 build-local: ## Build docker image to local development
@@ -24,6 +24,9 @@ mysql: ## Access MySQL Database
 
 psql: ## Access PostgreSQL Database
 	docker compose exec postgresql-db psql -U todo -d todo -W
+
+lint-check: ## Check code style with Checkstyle
+	docker compose run --rm -v "${PWD}/api:/app/api" -w /app/api --entrypoint "" todo-api ./gradlew check
 
 format-check: ## Check code format using Spotless
 	docker compose run --rm -v "${PWD}/api:/app/api" -w /app/api --entrypoint "" todo-api ./gradlew spotlessCheck
