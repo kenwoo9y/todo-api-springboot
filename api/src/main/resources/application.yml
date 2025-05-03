@@ -13,6 +13,7 @@ spring:
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml
   type-aliases-package: com.example.todo.model
+  type-handlers-package: com.example.todo.config
   configuration:
     map-underscore-to-camel-case: true
     lazy-loading-enabled: true

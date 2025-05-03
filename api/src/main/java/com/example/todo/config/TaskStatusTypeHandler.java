@@ -44,7 +44,7 @@ public class TaskStatusTypeHandler extends BaseTypeHandler<TaskStatus> {
     if (value == null) {
       return null;
     }
-    return TaskStatus.fromValue(value);
+    return TaskStatus.fromValue(value.trim());
   }
 
   /**
@@ -61,7 +61,7 @@ public class TaskStatusTypeHandler extends BaseTypeHandler<TaskStatus> {
     if (value == null) {
       return null;
     }
-    return TaskStatus.fromValue(value);
+    return TaskStatus.fromValue(value.trim());
   }
 
   /**
@@ -78,6 +78,6 @@ public class TaskStatusTypeHandler extends BaseTypeHandler<TaskStatus> {
     if (value == null) {
       return null;
     }
-    return TaskStatus.fromValue(value);
+    return TaskStatus.fromValue(value.trim());
   }
 }

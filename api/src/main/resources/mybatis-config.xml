@@ -17,4 +17,8 @@
     <typeAliases>
         <package name="com.example.todo.model" />
     </typeAliases>
+
+    <typeHandlers>
+        <typeHandler handler="com.example.todo.config.TaskStatusTypeHandler" />
+    </typeHandlers>
 </configuration> 
