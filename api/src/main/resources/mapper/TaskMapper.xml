@@ -5,7 +5,7 @@
         <id property="id" column="id" />
         <result property="title" column="title" />
         <result property="description" column="description" />
-        <result property="dueDate" column="due_date" />
+        <result property="dueDate" column="due_date" jdbcType="DATE" />
         <result property="status" column="status" typeHandler="com.example.todo.config.TaskStatusTypeHandler" />
         <result property="ownerId" column="owner_id" />
         <result property="createdAt" column="created_at" />

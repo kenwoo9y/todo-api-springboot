@@ -1,6 +1,7 @@
 package com.example.todo.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
@@ -18,9 +19,9 @@ public class Task {
   /** Detailed description of the task. Must be less than 255 characters. */
   private String description;
 
-  /** Due date and time for the task. */
+  /** Due date for the task. */
   @JsonProperty("due_date")
-  private LocalDateTime dueDate;
+  private LocalDate dueDate;
 
   /** Current status of the task. Can be TODO, IN_PROGRESS, or DONE. */
   private TaskStatus status;
