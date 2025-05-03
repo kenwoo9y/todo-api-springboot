@@ -1,0 +1,52 @@
+name: Java CI Workflow
+
+on:
+  pull_request:
+    branches: main
+
+defaults:
+  run:
+    working-directory: ./api  # 作業ディレクトリを指定
+
+jobs:
+  java-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      # コードのチェックアウト
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # JDK 21のセットアップ
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      # Gradleキャッシュの設定
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      # Spotlessのチェック
+      - name: Run Spotless check
+        run: ./gradlew spotlessCheck
+
+      # Checkstyleの実行
+      - name: Run Checkstyle
+        run: ./gradlew checkstyleMain checkstyleTest
+
+      # JUnitテストとJacocoによるカバレッジレポートの実行
+      - name: Run JUnit and generate coverage report
+        run: ./gradlew clean test jacocoTestReport
+        env:
+          SPRING_PROFILES_ACTIVE: test
+
+      # Jacocoカバレッジレポートの検証
+      - name: Verify Jacoco coverage
+        run: ./gradlew jacocoTestCoverageVerification
