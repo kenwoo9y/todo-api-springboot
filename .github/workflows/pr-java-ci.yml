@@ -44,6 +44,8 @@ jobs:
       # JUnitテストとJacocoによるカバレッジレポートの実行
       - name: Run JUnit and generate coverage report
         run: ./gradlew clean test jacocoTestReport
+        env:
+          SPRING_PROFILES_ACTIVE: test
 
       # Jacocoカバレッジレポートの検証
       - name: Verify Jacoco coverage
