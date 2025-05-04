@@ -48,12 +48,18 @@ This is a ToDo Web API implemented with Spring Boot, designed for simplicity and
     $ cd todo-api-springboot
     ```
 
-2. Build the required Docker images:
+2. Create environment file:
+    ```
+    $ cp .env.example .env
+    ```
+    Edit `.env` file to match your environment if needed.
+
+3. Build the required Docker images:
     ```
     $ make build-local
     ```
 
-3. Start the containers and run database migrations:
+4. Start the containers and run database migrations:
     ```
     $ make up
     ```
