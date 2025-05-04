@@ -23,10 +23,10 @@ services:
     platform: linux/x86_64
     container_name: mysql-db
     environment:
-      MYSQL_ROOT_PASSWORD: todo
-      MYSQL_DATABASE: todo
-      MYSQL_USER: todo
-      MYSQL_PASSWORD: todo
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - mysql-todo-db-data:/var/lib/mysql
       - $PWD/_tools/mysql/conf.d:/etc/mysql/conf.d:cached
@@ -44,9 +44,9 @@ services:
     platform: linux/x86_64
     container_name: postgresql-db
     environment:
-      POSTGRES_DB: todo
-      POSTGRES_USER: todo
-      POSTGRES_PASSWORD: todo
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - postgresql-todo-db-data:/var/lib/postgresql/data
     ports:
