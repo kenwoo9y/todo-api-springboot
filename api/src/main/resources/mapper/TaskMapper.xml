@@ -14,6 +14,13 @@
 
     <select id="findAll" resultMap="taskResultMap">
         SELECT * FROM tasks
+        ORDER BY
+            CASE status
+                WHEN 'Done' THEN 1
+                ELSE 0
+            END ASC,
+            due_date ASC,
+            created_at DESC
     </select>
 
     <select id="findById" resultMap="taskResultMap">
@@ -22,6 +29,13 @@
 
     <select id="findByOwnerId" resultMap="taskResultMap">
         SELECT * FROM tasks WHERE owner_id = #{ownerId}
+        ORDER BY
+            CASE status
+                WHEN 'Done' THEN 1
+                ELSE 0
+            END ASC,
+            due_date ASC,
+            created_at DESC
     </select>
 
     <insert id="create" parameterType="com.example.todo.model.Task" useGeneratedKeys="true" keyProperty="id">
