@@ -109,6 +109,7 @@ This is a ToDo Web API implemented with Spring Boot, designed for simplicity and
 
 For MySQL:
 ```
+SPRING_PROFILES_ACTIVE=mysql
 DB_TYPE=mysql
 DB_HOST=mysql-db
 DB_PORT=3306
@@ -119,7 +120,8 @@ DB_PASSWORD=<your_password>
 
 For PostgreSQL:
 ```
-DB_TYPE=psql
+SPRING_PROFILES_ACTIVE=postgresql
+DB_TYPE=postgresql
 DB_HOST=postgresql-db
 DB_PORT=5432
 DB_NAME=todo
