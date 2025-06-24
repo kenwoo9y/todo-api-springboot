@@ -1,3 +1,6 @@
+include .env
+export
+
 .PHONY: help build-local up down logs ps mysql psql test lint-check format-check format-fix
 .DEFAULT_GOAL := help
 
@@ -17,10 +20,10 @@ ps: ## Check container status
 	docker compose ps
 
 mysql: ## Access MySQL Database
-	docker compose exec mysql-db mysql -u root -p --default-character-set=utf8mb4
+	docker compose exec mysql-db mysql -u $$DB_USER -p$$DB_PASSWORD --default-character-set=utf8mb4
 
 psql: ## Access PostgreSQL Database
-	docker compose exec postgresql-db psql -U todo -d todo -W
+	docker compose exec postgresql-db psql -U $$DB_USER -d $$DB_NAME -W
 
 test: ## Execute tests
 	docker compose run --rm -v "${PWD}/api:/app/api" -w /app/api --entrypoint "" todo-api ./gradlew test --rerun-tasks
@@ -35,5 +38,5 @@ format-fix: ## Fix code format using Spotless
 	docker compose run --rm -v "${PWD}/api:/app/api" -w /app/api --entrypoint "" todo-api ./gradlew spotlessApply
 
 help: ## Show options
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' Makefile | \
 		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
