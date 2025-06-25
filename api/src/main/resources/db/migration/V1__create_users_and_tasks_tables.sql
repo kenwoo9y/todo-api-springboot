@@ -1,4 +1,4 @@
--- MySQL用のDDL
+-- for MySQL
 CREATE TABLE users (
     id BIGINT NOT NULL AUTO_INCREMENT,
     username VARCHAR(30) UNIQUE,
@@ -23,7 +23,7 @@ CREATE TABLE tasks (
     FOREIGN KEY (owner_id) REFERENCES users(id)
 );
 
--- PostgreSQL用のDDL
+-- for PostgreSQL
 /*
 CREATE TABLE users (
     id BIGSERIAL NOT NULL,
