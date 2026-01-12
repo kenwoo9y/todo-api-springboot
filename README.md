@@ -146,3 +146,111 @@ $ make up
     ```
     $ make psql
     ```
+
+---
+## セットアップ
+### 初期セットアップ
+1. リポジトリをクローン:
+    ```
+    $ git clone https://github.com/kenwoo9y/todo-api-springboot.git
+    $ cd todo-api-springboot
+    ```
+
+2. 環境変数ファイルを作成:
+    ```
+    $ cp .env.example .env
+    ```
+    必要に応じて `.env` ファイルを編集。
+
+3. 必要なDockerイメージをビルド:
+    ```
+    $ make build-local
+    ```
+
+4. コンテナを起動し、データベースマイグレーションを実行:
+    ```
+    $ make up
+    ```
+    このコマンドは以下を実行する:
+    - 必要なすべてのコンテナを起動
+    - データベースマイグレーションを自動実行
+    - Spring Bootアプリケーションを起動
+
+## 使用方法
+### コンテナ管理
+- コンテナの状態を確認:
+    ```
+    $ make ps
+    ```
+- コンテナのログを表示:
+    ```
+    $ make logs
+    ```
+- コンテナを停止:
+    ```
+    $ make down
+    ```
+
+## 開発
+### テストの実行
+- テストを実行:
+    ```
+    $ make test
+    ```
+### コード品質チェック
+- リンターチェック:
+    ```
+    $ make lint-check
+    ```
+- コードフォーマットをチェック:
+    ```
+    $ make format-check
+    ```
+- コードフォーマットを適用:
+    ```
+    $ make format-fix
+    ```
+
+## データベース
+### データベースの切り替え
+1. `.env` ファイルを編集:
+
+MySQLの場合:
+```
+SPRING_PROFILES_ACTIVE=mysql
+DB_TYPE=mysql
+DB_HOST=mysql-db
+DB_PORT=3306
+DB_NAME=todo
+DB_USER=<your_username>
+DB_PASSWORD=<your_password>
+```
+
+PostgreSQLの場合:
+```
+SPRING_PROFILES_ACTIVE=postgresql
+DB_TYPE=postgresql
+DB_HOST=postgresql-db
+DB_PORT=5432
+DB_NAME=todo
+DB_USER=<your_username>
+DB_PASSWORD=<your_password>
+```
+
+2. `api/src/main/resources/db/migration/V1__create_users_and_tasks_tables.sql` ファイルを編集
+
+3. アプリケーションを再ビルドして再起動:
+```
+$ make build-local
+$ make up
+```
+
+### データベースへのアクセス
+- MySQLデータベースにアクセス:
+    ```
+    $ make mysql
+    ```
+- PostgreSQLデータベースにアクセス:
+    ```
+    $ make psql
+    ```
