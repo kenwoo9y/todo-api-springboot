@@ -1,10 +1,10 @@
-# ビルド用のベースイメージとして openjdk:21 を使用
+# Use openjdk:21 as base image for build
 FROM openjdk:21-jdk-slim AS builder
 
-# 作業ディレクトリを /app/api に設定
+# Set working directory to /app/api
 WORKDIR /app/api
 
-# Gradle Wrapperとプロジェクトファイルをコピー
+# Copy Gradle Wrapper and project files
 COPY ./api/gradlew ./gradlew
 COPY ./api/gradle ./gradle
 COPY ./api/build.gradle ./build.gradle
@@ -12,33 +12,33 @@ COPY ./api/settings.gradle ./settings.gradle
 COPY ./api/src ./src
 COPY ./api/config ./config
 
-# Gradleラッパーに実行権限を付与
+# Grant execute permission to Gradle wrapper
 RUN chmod +x ./gradlew
 
-# Gradleを実行してプロジェクトをビルド（テストをスキップ）
+# Run Gradle to build the project (skip tests)
 RUN ./gradlew bootJar --no-daemon --info --stacktrace
 
-# ビルド成果物の確認
+# Verify build artifacts
 RUN ls -la build/libs/ || true
 RUN find . -name "*.jar" || true
 
-# 実行用のベースイメージとして openjdk:21 を使用
+# Use openjdk:21 as base image for runtime
 FROM openjdk:21-jdk-slim
 
-# 作業ディレクトリを /app/api に設定
+# Set working directory to /app/api
 WORKDIR /app/api
 
-# ビルド成果物（JARファイル）をコピー
+# Copy build artifacts (JAR file)
 COPY --from=builder /app/api/build/libs/todo-0.0.1-SNAPSHOT.jar /app/api/todo-api.jar
 
-# JARファイルに実行権限を付与
+# Grant execute permission to JAR file
 RUN chmod +x /app/api/todo-api.jar
 
-# ファイルの存在を確認
+# Verify file existence
 RUN ls -la /app/api/todo-api.jar
 
-# アプリケーションの実行
+# Run the application
 ENTRYPOINT ["java", "-jar", "/app/api/todo-api.jar"]
 
-# ポートを開放
+# Expose port
 EXPOSE 8080
